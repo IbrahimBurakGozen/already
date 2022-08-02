@@ -1,0 +1,13 @@
+# misc
+.DS_Store
+*.pem
+
+.vscode
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+.env
