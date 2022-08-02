@@ -4,7 +4,6 @@ import classNames from "classnames";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
 import { useCategoryByIdQuery } from "../hooks/categories.hook";
-import { Category } from "../utils/types";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
 	// currentCategory: Category | null | undefined;
@@ -24,6 +23,13 @@ export default function CategoryMenu({
 	/**
 	 *
 	 *
+	 *  If the category true,
+	 */
+	const { data, isLoading, error } = useCategoryByIdQuery(categoryId || "");
+
+	/**
+	 *
+	 *
 	 * If the category is null,
 	 */
 	if (!categoryId) {
@@ -33,13 +39,6 @@ export default function CategoryMenu({
 			</div>
 		);
 	}
-
-	/**
-	 *
-	 *
-	 *  If the category true,
-	 */
-	const { data, isLoading, error } = useCategoryByIdQuery(categoryId);
 
 	if (isLoading) {
 		return (

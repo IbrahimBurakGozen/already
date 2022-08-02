@@ -1,6 +1,5 @@
 import Arrow from "@/common/icons/actions/Arrow";
 import Heading from "@/common/typography/Heading";
-import CategoryGrid from "@/modules/categories/components/CategoryGrid";
 import { useCategoriesQuery } from "@/modules/categories/hooks/categories.hook";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -10,6 +9,13 @@ import { ReactElement } from "react";
 const MainLayout = dynamic(() => import("@/common/layout/MainLayout"), {
 	ssr: false,
 });
+
+const CategoryGrid = dynamic(
+	() => import("@/modules/categories/components/CategoryGrid"),
+	{
+		ssr: false,
+	}
+);
 
 export default function HomePage() {
 	const { data, isLoading, error } = useCategoriesQuery(null);
