@@ -1,0 +1,17 @@
+src/Core/bin
+src/Core/obj
+
+src/Gateway/bin
+src/Gateway/obj
+
+src/Infrastructure/bin
+src/Infrastructure/obj
+
+src/Shared/bin
+src/Shared/obj
+
+src/Application/bin
+src/Application/obj
+
+tests/UnitTests/bin
+tests/UnitTests/obj

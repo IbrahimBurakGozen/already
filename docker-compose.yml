@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+    networks:
+      - database_network
+    command: postgres -c stats_temp_directory=/tmp
+
+  backend:
+    image: already-backend
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile.dev
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      CONNECTION_STRINGS: host=db;port=5432;database=${POSTGRES_DB};username=${POSTGRES_USER};password=${POSTGRES_PASSWORD};
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./Backend:/app
+    depends_on:
+      - db
+    networks:
+      - database_network
+      - public_network
+    command: bash -c "dotnet ef database update"
+
+  frontend:
+    image: already-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    environment:
+      API_PATH: http://backend:8080/api
+      NODE_ENV: development
+    ports:
+      - "80:3000"
+    restart: always
+    volumes:
+      - ./frontend:/var/www/html
+      - /var/www/html/node_modules
+      - /var/www/html/.next
+    depends_on:
+      - backend
+    networks:
+      - public_network
+
+networks:
+  database_network:
+    name: database_network
+  public_network:
+    name: public_network

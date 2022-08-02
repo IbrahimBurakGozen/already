@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	background-color: transparent;
+	text-decoration: none;
+	-webkit-text-decoration-skip: objects;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+/* 
+
+
+	Main Padding side
+*/
+.px-page {
+	@apply px-8 md:px-16 lg:px-24 2xl:px-64;
+}
+
+.pl-page {
+	@apply pl-8 md:pl-16 lg:pl-24 2xl:pl-64;
+}
+
+.pr-page {
+	@apply pr-8 md:pr-16 lg:pr-24 2xl:pr-64;
+}
+
+.mx-page {
+	@apply mx-8 md:mx-16 lg:mx-24 2xl:mx-64;
+}
+
+.ml-page {
+	@apply ml-8 md:ml-16 lg:ml-24 2xl:ml-64;
+}
+
+.mr-page {
+	@apply mr-8 md:mr-16 lg:mr-24 2xl:mr-64;
+}
+/* 
+
+
+	Main Padding top
+*/
+.py-page {
+	@apply py-48 xl:py-52;
+}
+
+.pt-page {
+	@apply pt-60;
+}
+
+.pb-page {
+	@apply pb-60;
+}
+
+.py-section {
+	@apply py-16;
+}
+
+.pt-section {
+	@apply pt-16;
+}
+
+.pb-section {
+	@apply pb-16;
+}
+
+.my-page {
+	@apply my-48 xl:my-52;
+}
+
+.mt-page {
+	@apply mt-60;
+}
+
+.mb-page {
+	@apply mb-60;
+}
+
+.my-section {
+	@apply my-16;
+}
+
+.mt-section {
+	@apply mt-16;
+}
+
+.mb-section {
+	@apply mb-16;
+}
