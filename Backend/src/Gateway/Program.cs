@@ -23,8 +23,6 @@ builder.Services.AddControllers();
 // DB options
 string? connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRINGS");
 
-Console.WriteLine(connectionString);
-
 if (connectionString != null)
 {
 
@@ -71,50 +69,47 @@ app.MapControllers();
 // Seed Database
 if (app.Environment.IsDevelopment())
 {
-    using (var scope = app.Services.CreateScope())
-    {
-        var services = scope.ServiceProvider;
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogInformation("Environment Development");
+    using var scope = app.Services.CreateScope();
+
+    var services = scope.ServiceProvider;
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogInformation("Environment Development");
         
-        try
-        {
-            var context = services.GetRequiredService<AppDbContext>();
-            context.Database.Migrate();
-            context.Database.EnsureCreated();
-            var logString = Seeder.Initialize(services);
-            logger.LogInformation(logString);
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An error occurred seeding the DB.");
-        }
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        context.Database.Migrate();
+        context.Database.EnsureCreated();
+        var logString = Seeder.Initialize(services);
+        logger.LogInformation(logString);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred seeding the DB.");
     }
 }
 
-// Database Migrations Production
-// if (app.Environment.IsProduction())
-// {
-//     using (var scope = app.Services.CreateScope())
-//     {
-//         var services = scope.ServiceProvider;
-//         var logger = services.GetRequiredService<ILogger<Program>>();
-//         logger.LogInformation("Environment Production");
-//
-//         try
-//         {
-//             var context = services.GetRequiredService<AppDbContext>();
-//             logger.LogCritical(services.);
-//
-//             context.Database.EnsureCreated();
-//             context.Database.Migrate();
-//         }
-//         catch (Exception ex)
-//         {
-//             logger.LogError(ex, "An error occurred seeding the DB.");
-//         }
-//     }
-// }
+if (app.Environment.IsProduction())
+{
+    using var scope = app.Services.CreateScope();
+
+    var services = scope.ServiceProvider;
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogInformation("Environment Development");
+        
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        context.Database.Migrate();
+        context.Database.EnsureCreated();
+        var logString = Seeder.Initialize(services);
+        logger.LogInformation(logString);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred seeding the DB.");
+    }
+}
 
 app.MapGet("/", () => $"Welcome to the already backend :)");
 
