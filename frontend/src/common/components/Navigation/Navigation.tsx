@@ -48,7 +48,7 @@ export default function Navigation() {
 			
 				Top Navigation
 			*/}
-			<div className="bg-light-300 w-full flex flex-row justify-between 	py-6 px-page">
+			<div className="bg-light-400 w-full flex flex-row justify-between 	py-6 px-page">
 				{/* 
 			
 			

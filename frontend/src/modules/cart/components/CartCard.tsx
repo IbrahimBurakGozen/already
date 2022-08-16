@@ -46,7 +46,7 @@ export default function CartCard({
 		<div
 			{...props}
 			className={classNames(
-				"flex flex-row gap-8 border-b-2 last:border-b-0 border-light-400 pb-10 mb-10",
+				"flex flex-row flex-wrap justify-end gap-8 border-b-2 last:border-b-0 border-light-400 pb-10 mb-10",
 				deleted && "hidden",
 				className
 			)}
@@ -78,7 +78,9 @@ export default function CartCard({
 					onChange={(e: any) => handleUpdate(Number(e.target.value))}
 				/>
 
-				<Heading type="h4">€{item.price}</Heading>
+				<Heading type="h4">
+					€{item.price.toString().split(".").join(",")}
+				</Heading>
 
 				<Button
 					id="remove-product-from-cart-button"

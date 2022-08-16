@@ -7,14 +7,17 @@ export const [
 	textColors,
 	bgColors,
 	fillColors,
+	borderColors,
 	// hover
 	hoverTextColors,
 	hoverBgColors,
 	hoverFillColors,
+	hoverBorderColors,
 	// focus
 	focusTextColors,
 	focusBgColors,
 	focusFillColors,
+	focusBorderColors,
 ]: {
 	[key in Color]: {
 		[key in ColorVariants]: string;
@@ -140,6 +143,44 @@ export const [
 			700: "fill-transparent",
 		},
 	},
+	{
+		red: {
+			300: "border-red-300",
+			400: "border-red-400",
+			500: "border-red-500",
+			600: "border-red-600",
+			700: "border-red-700",
+		},
+		blue: {
+			300: "border-blue-300",
+			400: "border-blue-400",
+			500: "border-blue-500",
+			600: "border-blue-600",
+			700: "border-blue-700",
+		},
+
+		light: {
+			300: "border-light-300",
+			400: "border-light-400",
+			500: "border-light-500",
+			600: "border-light-400",
+			700: "border-light-300",
+		},
+		dark: {
+			300: "border-dark-300",
+			400: "border-dark-400",
+			500: "border-dark-500",
+			600: "border-dark-600",
+			700: "border-dark-700",
+		},
+		transparent: {
+			300: "border-transparent",
+			400: "border-transparent",
+			500: "border-transparent",
+			600: "border-transparent",
+			700: "border-transparent",
+		},
+	},
 	/*
 
 
@@ -260,6 +301,44 @@ export const [
 			700: "hover:fill-transparent",
 		},
 	},
+	{
+		red: {
+			300: "hover:border-red-300",
+			400: "hover:border-red-400",
+			500: "hover:border-red-500",
+			600: "hover:border-red-600",
+			700: "hover:border-red-700",
+		},
+		blue: {
+			300: "hover:border-blue-300",
+			400: "hover:border-blue-400",
+			500: "hover:border-blue-500",
+			600: "hover:border-blue-600",
+			700: "hover:border-blue-700",
+		},
+
+		light: {
+			300: "hover:border-light-300",
+			400: "hover:border-light-400",
+			500: "hover:border-light-500",
+			600: "hover:border-light-400",
+			700: "hover:border-light-300",
+		},
+		dark: {
+			300: "hover:border-dark-300",
+			400: "hover:border-dark-400",
+			500: "hover:border-dark-500",
+			600: "hover:border-dark-600",
+			700: "hover:border-dark-700",
+		},
+		transparent: {
+			300: "hover:border-transparent",
+			400: "hover:border-transparent",
+			500: "hover:border-transparent",
+			600: "hover:border-transparent",
+			700: "hover:border-transparent",
+		},
+	},
 	/*
 
 
@@ -378,6 +457,44 @@ export const [
 			500: "focus:fill-transparent",
 			600: "focus:fill-transparent",
 			700: "focus:fill-transparent",
+		},
+	},
+	{
+		red: {
+			300: "focus:border-red-300",
+			400: "focus:border-red-400",
+			500: "focus:border-red-500",
+			600: "focus:border-red-600",
+			700: "focus:border-red-700",
+		},
+		blue: {
+			300: "focus:border-blue-300",
+			400: "focus:border-blue-400",
+			500: "focus:border-blue-500",
+			600: "focus:border-blue-600",
+			700: "focus:border-blue-700",
+		},
+
+		light: {
+			300: "focus:border-light-300",
+			400: "focus:border-light-400",
+			500: "focus:border-light-500",
+			600: "focus:border-light-400",
+			700: "focus:border-light-300",
+		},
+		dark: {
+			300: "focus:border-dark-300",
+			400: "focus:border-dark-400",
+			500: "focus:border-dark-500",
+			600: "focus:border-dark-600",
+			700: "focus:border-dark-700",
+		},
+		transparent: {
+			300: "focus:border-transparent",
+			400: "focus:border-transparent",
+			500: "focus:border-transparent",
+			600: "focus:border-transparent",
+			700: "focus:border-transparent",
 		},
 	},
 ];

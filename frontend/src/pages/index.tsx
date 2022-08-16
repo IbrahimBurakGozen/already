@@ -33,13 +33,13 @@ export default function HomePage() {
 					className="-z-10 rounded-3xl"
 				/>
 				<Link href="/products">
-					<div className="z-10 absolute bottom-16 left-16 flex flex-col md:flex-row gap-4 w-min md:w-max h-min cursor-pointer">
-						<Heading color="light" type="h1">
+					<div className="z-10 absolute bottom-8 md:bottom-16 left-8 md:left-16 flex md:flex-row flex-wrap gap-4 w-fit md:w-fit h-min cursor-pointer">
+						<Heading color="light" type="h2">
 							Ontdek ons aanbod
 						</Heading>
 						<Arrow
 							direction="left-to-right"
-							className="fill-light-300 w-24 xl:w-36"
+							className="hidden md:block fill-light-300 w-16 xl:w-24"
 						/>
 					</div>
 				</Link>

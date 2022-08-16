@@ -36,7 +36,15 @@ public class Cart : BaseEntity, IAggregateRoot
         SetCustomer(customer);
         AddCartLine(lines);
     }
-
+    
+    
+    
+    // Getters
+    public double GetTotal()
+    {
+        return _cartLines.Sum(x => x.GetTotal());
+    }
+    
 
     // Adding
     public void AddCartLine(CartLine line)

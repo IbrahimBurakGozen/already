@@ -33,7 +33,7 @@ export default function ProductViewNav({
 		<nav
 			{...props}
 			className={classNames(
-				"flex flex-col gap-16 lg:bg-light-400 lg:rounded-3xl lg:p-10 ",
+				"flex flex-col gap-16 lg:bg-light-300 lg:rounded-3xl lg:p-10 ",
 				className
 			)}
 		>

@@ -1,8 +1,6 @@
 import Heading from "@/common/typography/Heading";
 import { useCart } from "@/modules/cart/hooks/cart";
 import dynamic from "next/dynamic";
-import Link from "next/link";
-import { ReactElement } from "react";
 import CartNav from "../components/CartNav";
 
 const MainLayout = dynamic(() => import("@/common/layout/MainLayout"), {
@@ -46,7 +44,7 @@ export default function CartView() {
                         
                             Title
                         */}
-						<div className="pb-4 xl:border-b-2 xl:border-blue-300">
+						<div className="pb-4 border-b-2 border-blue-300">
 							<Heading type="h3" color="blue">
 								Jouw Winkelmandje
 							</Heading>
@@ -104,17 +102,15 @@ export default function CartView() {
 		);
 	}
 
-	console.log(data);
-
 	return (
-		<div className="grid grid-cols-[auto_20%]">
+		<div className="grid grid-cols-1 lg:grid-cols-[auto_25%]">
 			<div className="py-page">
 				<div className="px-page flex flex-col gap-20">
 					{/* 
                         
                             Title
                         */}
-					<div className="pb-4 flex flex-row justify-between items-center flex-wrap gap-8 xl:border-b-2 xl:border-blue-300">
+					<div className="pb-4 flex flex-row justify-between items-center flex-wrap gap-8 border-b-2 border-blue-300">
 						<Heading type="h3" color="blue">
 							Jouw Winkelmandje
 						</Heading>
@@ -137,7 +133,7 @@ export default function CartView() {
 				</div>
 			</div>
 
-			<CartNav />
+			<CartNav totalPrice={data.totalPrice} />
 		</div>
 	);
 }

@@ -26,6 +26,13 @@ public class CartLine: BaseEntity, IAggregateRoot
         Quantity = Guard.Against.NegativeOrZero(quantity, nameof(quantity));
         ProductVariant = Guard.Against.Null(productVariant, nameof(productVariant));
     }
+    
+    
+    // Getters
+    public double GetTotal()
+    {
+        return ProductVariant.Price * Quantity;
+    }
    
     
     // Setters

@@ -1,3 +1,4 @@
+import Text from "@/common/typography/Text";
 import dynamic from "next/dynamic";
 import { ReactElement } from "react";
 
@@ -16,9 +17,19 @@ const Heading = dynamic(() => import("@/common/typography/Heading"), {
 export default function ApproachPage() {
 	return (
 		<>
-			<div className="h-screen flex flex-col justify-center items-center text-center">
-				<Heading type="h1" color="blue">
-					Je boodschappen in 3 stappen.
+			<div className="h-screen py-px px-page flex flex-col justify-center items-center text-center">
+				<Heading type="h1" color="blue" className="flex flex-col">
+					<Text
+						type="span"
+						color="blue"
+						className="text-9xl md:text-[14rem] xl:text-[18rem]"
+					>
+						3
+					</Text>
+
+					<Text type="span" color="blue" maxCharacters={25}>
+						stappen voor je boodschappen.
+					</Text>
 				</Heading>
 			</div>
 
@@ -29,6 +40,7 @@ export default function ApproachPage() {
 					src: "/images/approach/step-1.jpg",
 					alt: "Stap 1 afbeelding",
 				}}
+				position="right"
 			/>
 
 			<Banner
@@ -47,6 +59,7 @@ export default function ApproachPage() {
 					src: "/images/approach/step-3.jpg",
 					alt: "Stap 3 afbeelding",
 				}}
+				position="right"
 			/>
 		</>
 	);

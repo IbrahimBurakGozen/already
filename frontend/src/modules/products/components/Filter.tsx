@@ -5,30 +5,12 @@ import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import classNames from "classnames";
 import BreadCrumbs from "./BreadCrumbs";
 import Error from "@/common/components/Error";
+import FilterItem from "./FilterItem";
 
 interface Props {
 	className?: string;
 	params: Params;
 	// initialValues: FilterQueryParams;
-}
-
-interface FilterItemProps {
-	children: any;
-	title: string;
-}
-
-function FilterItem({ children, title }: FilterItemProps) {
-	return (
-		<div className="flex flex-col gap-4">
-			<Heading type="h4" color="blue">
-				{title}
-			</Heading>
-
-			<ul className="flex flex-col gap-2 cursor-pointer text-sm text-light-600">
-				{children}
-			</ul>
-		</div>
-	);
 }
 
 export default function Filter({ className, params }: Props) {
@@ -223,7 +205,7 @@ export default function Filter({ className, params }: Props) {
 					].map(({ title }, index) => {
 						return (
 							<li
-								className="hover:text-light-700"
+								className="opacity-50 cursor-pointer hover:opacity-100"
 								key={index}
 								// onClick={() => setSelectedSortKey(value)}
 								// className={selectedSortKey === value ? selectedClassName : ""}
@@ -263,6 +245,7 @@ export default function Filter({ className, params }: Props) {
 							>
 								<Checkbox
 									label={brand}
+									labelClassName="opacity-50 cursor-pointer hover:opacity-100"
 									// checked={selectedBrands && selectedBrands.includes(brand)}
 									// onChange={() => setSelectedBrands(brand)}
 								/>
@@ -300,6 +283,8 @@ export default function Filter({ className, params }: Props) {
 							>
 								<Checkbox
 									label={brand}
+									labelClassName="opacity-50 cursor-pointer hover:opacity-100"
+
 									// checked={selectedBrands && selectedBrands.includes(brand)}
 									// onChange={() => setSelectedBrands(brand)}
 								/>
@@ -338,6 +323,8 @@ export default function Filter({ className, params }: Props) {
 						return (
 							<li
 								key={index}
+								className="opacity-50 cursor-pointer hover:opacity-100"
+
 								// onClick={() => setSelectedAvailability(value)}
 								// className={
 								// 	selectedAvailability === value ? selectedClassName : ""

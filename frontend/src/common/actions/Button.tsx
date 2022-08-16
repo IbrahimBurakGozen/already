@@ -2,13 +2,13 @@ import { forwardRef } from "react";
 import { HTMLMotionProps, motion, useAnimation } from "framer-motion";
 import classNames from "classnames";
 import {
-	bgColors,
 	Color,
-	focusBgColors,
-	focusTextColors,
+	bgColors,
+	textColors,
+	borderColors,
 	hoverBgColors,
 	hoverTextColors,
-	textColors,
+	hoverBorderColors,
 } from "../config/colors";
 
 interface Props extends HTMLMotionProps<"button"> {
@@ -39,79 +39,68 @@ const Button = forwardRef<HTMLButtonElement, Props>(
 		},
 		ref
 	) => {
-		const colors: {
-			[K in buttonVariant]: {
-				[K in Color]: string;
-			};
+		const variants: {
+			[K in buttonVariant]: string;
 		} = {
-			filled: {
-				blue: `text-white ${bgColors.blue[600]} ${hoverBgColors.blue[500]} ${focusBgColors.blue[500]}`,
-				red: `text-white ${bgColors.red[600]} ${hoverBgColors.red[500]} ${focusBgColors.red[500]}`,
-				dark: `text-white ${bgColors.dark[600]} ${hoverBgColors.dark[500]} ${focusBgColors.dark[500]}`,
-				light: `text-white ${bgColors.light[600]} ${hoverBgColors.light[500]} ${focusBgColors.light[500]}`,
-				transparent: `${bgColors.transparent[600]} ${hoverBgColors.transparent[500]} ${focusBgColors.transparent[500]}`,
-			},
-			outlined: {
-				blue: `border-blue-700 border-2 hover:border-blue-600 focus:border-blue-600 ${textColors.blue[700]} ${hoverTextColors.blue[600]} ${focusTextColors.blue[600]}`,
-				red: `border-red-700 border-2 hover:border-red-600 focus:border-red-600 ${textColors.red[700]} ${hoverTextColors.red[600]} ${focusTextColors.red[600]}`,
-				light: `border-light-300 border-2 hover:border-light-500 focus:border-light-500 ${textColors.light[700]} ${hoverTextColors.light[600]} ${focusTextColors.light[600]}`,
-				dark: `border-dark-700 border-2 hover:border-dark-600 focus:border-dark-600 ${textColors.dark[700]} ${hoverTextColors.dark[600]} ${focusTextColors.dark[600]}`,
-				transparent: "border-transparent",
-			},
-			text: {
-				blue: `${textColors.blue[700]} ${hoverTextColors.blue[600]} ${focusTextColors.blue[600]}`,
-				red: `${textColors.red[700]} ${hoverTextColors.red[600]} ${focusTextColors.red[600]}`,
-				light: `${textColors.light[700]} ${hoverTextColors.light[600]} ${focusTextColors.light[600]}`,
-				dark: `${textColors.dark[700]} ${hoverTextColors.dark[600]} ${focusTextColors.dark[600]}`,
-				transparent: textColors.transparent[700],
-			},
+			filled: classNames(
+				"text-white",
+				bgColors[color][500],
+				hoverBgColors[color][600]
+			),
+			outlined: classNames(
+				"border-2",
+				borderColors[color][500],
+				textColors[color][500],
+				hoverBorderColors[color][600],
+				hoverTextColors[color][600]
+			),
+			text: classNames(textColors[color][500], hoverTextColors[color][600]),
 		};
 
-		const textSizes = {
-			small: "text-sm",
-			medium: "text-base",
-			large: "text-lg",
-		};
-
-		const paddingSizes = {
-			long: {
-				small: "py-3 px-10",
-				medium: "py-4 px-12",
-				large: "py-5 px-20",
+		const sizes = {
+			textSizes: {
+				small: "text-sm",
+				medium: "text-base",
+				large: "text-lg",
 			},
-			square: {
-				small: "py-3 px-3",
-				medium: "py-4 px-4",
-				large: "py-5 px-5",
+			paddingSizes: {
+				long: {
+					small: "py-3 px-10",
+					medium: "py-4 px-12",
+					large: "py-5 px-20",
+				},
+				square: {
+					small: "py-3 px-3",
+					medium: "py-4 px-4",
+					large: "py-5 px-5",
+				},
 			},
 		};
 
 		const shapes: {
-			[K in buttonShape]: {
-				[K in buttonSize]: string;
-			};
+			[K in buttonShape]: string;
 		} = {
-			default: {
-				small: `${textSizes.small}  ${paddingSizes.long.small} rounded-xl`,
-				medium: `${textSizes.medium} ${paddingSizes.long.medium} rounded-xl `,
-				large: `${textSizes.large} ${paddingSizes.long.large} rounded-xl `,
-			},
-			pill: {
-				small: `${textSizes.small}  ${paddingSizes.long.small} rounded-full`,
-				medium: `${textSizes.medium} ${paddingSizes.long.medium} rounded-full `,
-				large: `${textSizes.large} ${paddingSizes.long.large} rounded-full `,
-			},
-			square: {
-				small: `${textSizes.small}  ${paddingSizes.square.small} rounded-xl aspect-square`,
-				medium: `${textSizes.medium} ${paddingSizes.square.medium} rounded-xl aspect-square `,
-				large: `${textSizes.large} ${paddingSizes.square.large} rounded-xl aspect-square `,
-			},
-			circle: {
-				small: `${textSizes.small}  ${paddingSizes.square.small} rounded-full aspect-square`,
-				medium: `${textSizes.medium} ${paddingSizes.square.medium} rounded-full aspect-square `,
-				large: `${textSizes.large} ${paddingSizes.square.large} rounded-full aspect-square `,
-			},
-			none: textSizes,
+			default: classNames(
+				"rounded-lg",
+				sizes.textSizes[size],
+				sizes.paddingSizes.long[size]
+			),
+			pill: classNames(
+				"rounded-full",
+				sizes.textSizes[size],
+				sizes.paddingSizes.long[size]
+			),
+			square: classNames(
+				"rounded-xl aspect-square",
+				sizes.textSizes[size],
+				sizes.paddingSizes.square[size]
+			),
+			circle: classNames(
+				"rounded-full aspect-square",
+				sizes.textSizes[size],
+				sizes.paddingSizes.square[size]
+			),
+			none: sizes.textSizes[size],
 		};
 
 		const controls = useAnimation();
@@ -136,8 +125,8 @@ const Button = forwardRef<HTMLButtonElement, Props>(
 				{...props}
 				ref={ref}
 				className={classNames(
-					colors[variant][color],
-					shapes[shape][size],
+					variants[variant],
+					shapes[shape],
 					"font-semibold",
 					className
 				)}

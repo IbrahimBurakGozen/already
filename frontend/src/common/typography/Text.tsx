@@ -22,7 +22,7 @@ export default function Text({
 	...props
 }: Props) {
 	return createElement(
-		"p",
+		type,
 		{
 			...props,
 			className: classNames(className, textColors[color][shade]),

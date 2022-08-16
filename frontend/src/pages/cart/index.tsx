@@ -11,5 +11,5 @@ export default function CartPage() {
 }
 
 CartPage.getLayout = function getLayout(page: ReactElement) {
-	return <MainLayout>{page}</MainLayout>;
+	return <MainLayout footer={false}>{page}</MainLayout>;
 };

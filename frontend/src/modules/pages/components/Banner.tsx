@@ -10,12 +10,14 @@ interface Props extends HTMLAttributes<HTMLElement> {
 		src: string;
 		alt: string;
 	};
+	position?: "left" | "right";
 }
 
 export default function Banner({
 	title,
 	subtitle,
 	image,
+	position = "left",
 	className,
 	...props
 }: Props) {
@@ -26,13 +28,17 @@ export default function Banner({
 		>
 			<Image {...image} layout="fill" objectFit="cover" />
 
-			<div className="absolute left-0 top-0 w-full h-full backdrop-blur-sm" />
-
-			<div className="absolute top-0 left-0 flex flex-col ml-page mt-page gap-6 ">
-				<Heading type="h1" color="blue">
+			<div
+				className={classNames(
+					"absolute top-0 flex flex-col mt-page gap-3 md:gap-5 px-8 py-10 lg:px-24 lg:py-20 bg-blue-500 opacity-90 backdrop-blur-xl",
+					position === "left" && "left-0 rounded-r-xl",
+					position === "right" && "right-0 rounded-l-xl"
+				)}
+			>
+				<Heading type="h1" color="light">
 					{title}
 				</Heading>
-				<Heading type="h2" color="dark" maxCharacters={30}>
+				<Heading type="h3" color="light" maxCharacters={25}>
 					{subtitle}
 				</Heading>
 			</div>
