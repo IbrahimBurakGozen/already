@@ -9,8 +9,6 @@ export default async function handler(
 ) {
 	const { id } = req.query;
 
-	console.log("id", id);
-
 	try {
 		const { data } = await axios.get(process.env.API_PATH + "/products/" + id);
 		res.status(200).json(data.product);

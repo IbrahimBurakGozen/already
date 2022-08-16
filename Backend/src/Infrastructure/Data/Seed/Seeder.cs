@@ -1,4 +1,5 @@
 using Infrastructure.Data.Seed.ProductAggregate;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shared;
@@ -6,7 +7,28 @@ namespace Infrastructure.Data.Seed;
 
 public static class Seeder
 {
-    public static string Initialize(IServiceProvider serviceProvider)
+    public static void Execute(WebApplication app)
+    {
+        
+            using var scope = app.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            // var logger = services.GetRequiredService<ILogger>();
+       
+            try
+            {
+                var context = services.GetRequiredService<AppDbContext>();
+                context.Database.Migrate();
+                context.Database.EnsureCreated();
+                var logString = Initialize(services);
+                Console.WriteLine(logString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+    }
+    
+    private static string Initialize(IServiceProvider serviceProvider)
     {
         using (var dbContext = new AppDbContext(
                    serviceProvider.GetRequiredService<DbContextOptions<AppDbContext>>(),
@@ -22,44 +44,36 @@ public static class Seeder
         }
     }
     
-    public static void PopulateTestData(AppDbContext dbContext)
+    private static void PopulateTestData(AppDbContext dbContext)
     {
-        // Deleting Data
-        RemoveFromDb(dbContext, dbContext.Shops);
-        RemoveFromDb(dbContext, dbContext.Categories);
-        RemoveFromDb(dbContext, dbContext.Brands);
+        var tableNames = dbContext.Model.GetEntityTypes()
+            // .Where(w => w.ClrType.IsSubclassOf(typeof(IBaseEntity)))
+            .Select(t => t.GetTableName())
+            .Distinct()
+            .ToList();
         
-        RemoveFromDb(dbContext, dbContext.Products);
-        RemoveFromDb(dbContext, dbContext.ProductVariants);
-        RemoveFromDb(dbContext, dbContext.ProductImages);
         
-        RemoveFromDb(dbContext, dbContext.Images);
-
-        dbContext.SaveChanges();
-
-        
-        // dbContext.AddRange(BrandSeedData.Data);
-        dbContext.AddRange(CategorySeedData.Data);
-        // dbContext.AddRange(ShopSeedData.Data);
-
-        var products = ProductsSeedData.Data(
-            BrandSeedData.Data,
-            CategorySeedData.Data,
-            ShopSeedData.Data,
-            ProductOptionsSeedData.Data);
-        dbContext.Products.AddRange(products);
-
-
-        dbContext.SaveChanges();
-    }
-    
-    // Removing
-    private static void RemoveFromDb<T>(AppDbContext dbContext, DbSet<T> entities) where T: BaseEntity
-    {
-        foreach (var item in entities)
+        foreach (var tableName in tableNames)
         {
-            dbContext.Remove(item);
+            dbContext.Database.ExecuteSqlRaw($@"TRUNCATE TABLE ""{tableName}"" RESTART IDENTITY CASCADE;");
         }
+        
+        dbContext.SaveChanges();
+        
+
+        BrandSeedData.Init(50);
+        ShopSeedData.Init(50);
+        CategorySeedData.Init();
+        
+        ProductsSeedData.Init(500, BrandSeedData.Data, CategorySeedData.LeafData, ShopSeedData.Data);
+
+        dbContext.AddRange(BrandSeedData.Data);
+        dbContext.AddRange(CategorySeedData.Data);
+        dbContext.AddRange(ShopSeedData.Data);
+        
+        dbContext.AddRange(ProductsSeedData.Data);
+        
+        
+        dbContext.SaveChanges();
     }
-    
 }

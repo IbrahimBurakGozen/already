@@ -10,15 +10,15 @@ public class ProductImage : BaseEntity
 
 
     // Properties
-    public string ImageUrl { get; private set; }
-    public string ImageAlt { get; private set; }
+    public string Url { get; private set; }
+    public string Alt { get; private set; }
 
     
     // Constructors
-    public ProductImage(string imageUrl, string imageAlt)
+    public ProductImage(string url, string alt)
     {
-        ImageUrl = Guard.Against.NullOrEmpty(imageUrl, nameof(imageUrl));
-        ImageAlt = Guard.Against.NullOrEmpty(imageAlt, nameof(imageAlt));;
+        Url = Guard.Against.NullOrEmpty(url, nameof(url));
+        Alt = Guard.Against.NullOrEmpty(alt, nameof(alt));;
     }
     
     

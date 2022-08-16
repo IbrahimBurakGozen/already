@@ -10,21 +10,21 @@ public class Customer : ApplicationUser, IBaseEntity
     private List<Order> _orders = new();
     public IReadOnlyCollection<Order> Orders => _orders.AsReadOnly();
     
-    public Guid BasketId { get; private set; }
-    public Basket Basket { get; private set; }
+    public Guid? CartId { get; private set; }
+    public Cart? Cart { get; private set; }
 
 
     
     // Constructors
     public Customer(string firstName, string lastName, string email): base(firstName, lastName, email)
     {
-        if (Basket is null)
-        {
-            var basket = new Basket();
-            basket.SetCustomer(this);
-            Basket = basket;
-            BasketId = basket.Id;
-        }
+        // if (Cart is null)
+        // {
+        //     var basket = new Cart();
+        //     basket.SetCustomer(this);
+        //     Cart = basket;
+        //     CartId = basket.Id;
+        // }
     }
     
     
@@ -35,11 +35,5 @@ public class Customer : ApplicationUser, IBaseEntity
         Guard.Against.Null(order, nameof(order));
         order.SetCustomer(this);
         _orders.Add(order);
-    }
-
-    public void AddProductVariantToBasket(ProductVariant productVariant)
-    {
-        Guard.Against.Null(productVariant, nameof(productVariant));
-        Basket.AddProductVariant(productVariant);
     }
 }

@@ -15,8 +15,6 @@ interface Props {
 }
 
 export default function ProductsPage({ params }: Props) {
-	console.log("Shopppppppp");
-
 	return <ShopView params={params} />;
 }
 

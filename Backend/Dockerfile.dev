@@ -9,4 +9,4 @@ COPY ./ ./
 ENV PATH $PATH:/root/.dotnet/tools
 RUN dotnet tool install --global dotnet-ef
 EXPOSE 8080
-ENTRYPOINT dotnet watch run --project src/Gateway
+ENTRYPOINT dotnet watch run --project src/Gateway --no-hot-reload

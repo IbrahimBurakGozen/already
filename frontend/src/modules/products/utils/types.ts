@@ -1,3 +1,4 @@
+import { Brand, Category, Shop } from "@/modules/categories/utils/types";
 import { Image } from "src/utils/types";
 
 export interface Product {
@@ -7,6 +8,11 @@ export interface Product {
 	price: ProductPrice;
 	featuredImage: Image;
 	images: Image[];
+	shop: Shop;
+	category: Category;
+	brand: Brand;
+	variants: ProductVariant[];
+	options: ProductOption[];
 }
 
 export interface ProductPrice {
@@ -15,16 +21,23 @@ export interface ProductPrice {
 }
 
 export interface ProductOption {
-	option: string;
+	name: string;
 	values: string[];
 }
 
 export interface ProductVariant {
+	id: string;
 	barcode: string;
-	optionValues: string[];
 	price: number;
 	quantity: number;
 	sku: string;
+	default: boolean;
+	selectedOptions: ProductSelectedOption[];
+}
+
+export interface ProductSelectedOption {
+	name: string;
+	value: string;
 }
 
 export interface ProductImage extends Image {}

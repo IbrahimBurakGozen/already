@@ -18,3 +18,17 @@ export interface Category {
 	createdAt: string;
 	updatedAt: string;
 }
+
+export interface Brand {
+	id: string;
+	name: string;
+	description: string;
+	createdAt: string;
+	updatedAt: string;
+}
+
+export interface Shop {
+	name: string;
+	rating: number;
+	logoUrl: string;
+}

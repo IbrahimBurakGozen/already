@@ -1,9 +1,10 @@
 using Ardalis.GuardClauses;
 using Core.OrderAggregate;
 using Shared;
+using Shared.Interfaces;
 namespace Core.ProductAggregate;
 
-public class ProductVariant : BaseEntity
+public class ProductVariant : BaseEntity, IAggregateRoot
 {
     // Relations
     public Guid ProductId { get; private set; }

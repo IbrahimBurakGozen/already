@@ -17,7 +17,7 @@ namespace Infrastructure.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
@@ -293,7 +293,7 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Core.OrderAggregate.Basket", b =>
+            modelBuilder.Entity("Core.OrderAggregate.Cart", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -313,7 +313,37 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("CustomerId")
                         .IsUnique();
 
-                    b.ToTable("Basket");
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("Core.OrderAggregate.CartLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ProductVariantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductVariantId");
+
+                    b.ToTable("CartLines");
                 });
 
             modelBuilder.Entity("Core.OrderAggregate.Order", b =>
@@ -338,7 +368,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Core.OrderAggregate.OrderItem", b =>
@@ -372,7 +402,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("ProductVariantId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Core.ProductAggregate.Brand", b =>
@@ -511,22 +541,22 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Alt")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ImageAlt")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -596,9 +626,6 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Barcode")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("BasketId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -618,8 +645,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BasketId");
 
                     b.HasIndex("ProductId");
 
@@ -676,7 +701,7 @@ namespace Infrastructure.Data.Migrations
                 {
                     b.HasBaseType("Core.IdentityAggregate.ApplicationUser");
 
-                    b.Property<Guid>("BasketId")
+                    b.Property<Guid?>("CartId")
                         .HasColumnType("uuid");
 
                     b.HasDiscriminator().HasValue("Customer");
@@ -778,14 +803,33 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Core.OrderAggregate.Basket", b =>
+            modelBuilder.Entity("Core.OrderAggregate.Cart", b =>
                 {
                     b.HasOne("Core.OrderAggregate.Customer", "Customer")
-                        .WithOne("Basket")
-                        .HasForeignKey("Core.OrderAggregate.Basket", "CustomerId")
+                        .WithOne("Cart")
+                        .HasForeignKey("Core.OrderAggregate.Cart", "CustomerId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Core.OrderAggregate.CartLine", b =>
+                {
+                    b.HasOne("Core.OrderAggregate.Cart", "Cart")
+                        .WithMany("CartLines")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.ProductAggregate.ProductVariant", "ProductVariant")
+                        .WithMany()
+                        .HasForeignKey("ProductVariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("ProductVariant");
                 });
 
             modelBuilder.Entity("Core.OrderAggregate.Order", b =>
@@ -893,10 +937,6 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.ProductAggregate.ProductVariant", b =>
                 {
-                    b.HasOne("Core.OrderAggregate.Basket", null)
-                        .WithMany("ProductVariants")
-                        .HasForeignKey("BasketId");
-
                     b.HasOne("Core.ProductAggregate.Product", "Product")
                         .WithMany("ProductVariants")
                         .HasForeignKey("ProductId")
@@ -921,9 +961,9 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Core.OrderAggregate.Basket", b =>
+            modelBuilder.Entity("Core.OrderAggregate.Cart", b =>
                 {
-                    b.Navigation("ProductVariants");
+                    b.Navigation("CartLines");
                 });
 
             modelBuilder.Entity("Core.OrderAggregate.Order", b =>
@@ -964,8 +1004,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.OrderAggregate.Customer", b =>
                 {
-                    b.Navigation("Basket")
-                        .IsRequired();
+                    b.Navigation("Cart");
 
                     b.Navigation("Orders");
                 });

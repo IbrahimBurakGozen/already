@@ -61,13 +61,37 @@ public class Product : BaseEntity, IAggregateRoot
         Guard.Against.Null(productVariant, nameof(productVariant));
         AddProductVariant(productVariant);
     }
-
+    
+    public Product(string title, string description, Brand brand, Category category, Shop shop, ProductVariant productVariant, ProductImage productImage)
+        :this(title, description, brand, category,shop, productVariant)
+    {
+        AddProductImage(productImage);
+    }
+    
+    public Product(string title, string description, Brand brand, Category category, Shop shop, ProductVariant productVariant, List<ProductImage> productImages)
+        :this(title, description, brand, category,shop, productVariant)
+    {
+        AddProductImage(productImages);
+    }
+    
+    
     public Product(string title, string description, Brand brand, Category category, Shop shop, List<ProductVariant> productVariants)
         :this(title, description, brand, category,shop)
     {
         AddProductVariant(productVariants);
     }
     
+    public Product(string title, string description, Brand brand, Category category, Shop shop, List<ProductVariant> productVariants, ProductImage productImage)
+        :this(title, description, brand, category,shop, productVariants)
+    {
+        AddProductImage(productImage);
+    }
+    
+    public Product(string title, string description, Brand brand, Category category, Shop shop, List<ProductVariant> productVariants, List<ProductImage> productImages)
+        :this(title, description, brand, category,shop, productVariants)
+    {
+        AddProductImage(productImages);
+    }
     
     
     

@@ -40,7 +40,7 @@ export default function CategoryCard({ category, className, ...props }: Props) {
 				unoptimized
 			/>
 
-			<Heading type="h3" color="dark" breakpoint={2}>
+			<Heading type="h4" color="dark" breakpoint={2}>
 				{category.title}
 			</Heading>
 		</div>

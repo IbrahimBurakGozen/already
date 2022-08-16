@@ -12,7 +12,7 @@ export default function ProductGrid({ products, className, ...props }: Props) {
 		<div
 			{...props}
 			className={classNames(
-				"grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7    gap-x-4 gap-y-10 lg:gap-x-8 lg:gap-y-16",
+				"grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 2xl:grid-cols-5    gap-x-4 gap-y-10 lg:gap-x-8 lg:gap-y-16",
 				className
 			)}
 		>

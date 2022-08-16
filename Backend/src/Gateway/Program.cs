@@ -2,115 +2,58 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Core;
 using Core.IdentityAggregate;
-using Gateway;
+using FastEndpoints;
+using FastEndpoints.Swagger;
 using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Data.Seed;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Get port from environment and store in config
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 var url = $"http://0.0.0.0:{port}";
-var target = Environment.GetEnvironmentVariable("TARGET") ?? "World";
+
 
 // Add services to the container.
-builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Services.AddFastEndpoints();
+builder.Services.AddSwaggerDoc();
 
-builder.Services.AddControllers();
 
 // DB options
-string? connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRINGS");
+var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRINGS");
+if (connectionString != null) builder.Services.AddDbContext<AppDbContext>(c => c.UseNpgsql(connectionString));
 
-if (connectionString != null)
-{
-
-    builder.Services.AddDbContext<AppDbContext>(c => c.UseNpgsql(connectionString));
-}
 
 // Identity
 builder.Services.AddDefaultIdentity<ApplicationUser>()
     .AddEntityFrameworkStores<AppDbContext>();
 
 
-// Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-    c.EnableAnnotations();
-});
-
-
-// Default Module Configure
+// Dependency injection
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
     containerBuilder.RegisterModule(new DefaultCoreModule());
     containerBuilder.RegisterModule(new DefaultInfrastructureModule(builder.Environment.EnvironmentName == "Development"));
 });
 
+
+
 // Build
 var app = builder.Build();
-
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
+app.UseFastEndpoints();
+app.UseOpenApi();
+app.UseSwaggerUi3(c => c.ConfigureDefaults());
 
-app.MapControllers();
 
-// Seed Database
-if (app.Environment.IsDevelopment())
-{
-    using var scope = app.Services.CreateScope();
+// Seed
+Seeder.Execute(app);
 
-    var services = scope.ServiceProvider;
-    var logger = services.GetRequiredService<ILogger<Program>>();
-    logger.LogInformation("Environment Development");
-        
-    try
-    {
-        var context = services.GetRequiredService<AppDbContext>();
-        context.Database.Migrate();
-        context.Database.EnsureCreated();
-        var logString = Seeder.Initialize(services);
-        logger.LogInformation(logString);
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "An error occurred seeding the DB.");
-    }
-}
 
-if (app.Environment.IsProduction())
-{
-    using var scope = app.Services.CreateScope();
-
-    var services = scope.ServiceProvider;
-    var logger = services.GetRequiredService<ILogger<Program>>();
-    logger.LogInformation("Environment Development");
-        
-    try
-    {
-        var context = services.GetRequiredService<AppDbContext>();
-        context.Database.Migrate();
-        context.Database.EnsureCreated();
-        var logString = Seeder.Initialize(services);
-        logger.LogInformation(logString);
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "An error occurred seeding the DB.");
-    }
-}
-
-app.MapGet("/", () => $"Welcome to the already backend :)");
-
+// Run
 app.Run(url);

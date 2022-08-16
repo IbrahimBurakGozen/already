@@ -2,6 +2,7 @@ using Ardalis.EFCore.Extensions;
 using Core.IdentityAggregate;
 using Core.OrderAggregate;
 using Core.ProductAggregate;
+using Infrastructure.Data.Seed.ProductAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -27,10 +28,14 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
     
     // OrderAggregate
-    // public DbSet<Order> Orders => Set<Order>();
-    // public DbSet<OrderItem> OrderItems => Set<OrderItem>();
-    // public DbSet<Basket> Baskets => Set<Basket>();
-    // public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Cart> Carts => Set<Cart>();
+    public DbSet<CartLine> CartLines => Set<CartLine>();
+    
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+    
+    public DbSet<Customer> Customers => Set<Customer>();
+    
     
     // ProductAggregate
     public DbSet<Product> Products => Set<Product>();
@@ -81,8 +86,12 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     
         modelBuilder.Entity<ApplicationRole>().ToTable("Roles");
         modelBuilder.Entity<ApplicationRoleClaim>().ToTable("RoleClaims");
+        
+        
+        // Seeding
+        // modelBuilder.Entity<Brand>().HasData(BrandSeedData.Data);
 
-
+        
         modelBuilder.ApplyAllConfigurationsFromCurrentAssembly();
     }
 

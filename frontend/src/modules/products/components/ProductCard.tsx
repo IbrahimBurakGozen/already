@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Product } from "../utils/types";
 import Heading from "@/common/typography/Heading";
-import Paragraph from "@/common/typography/Paragraph";
 import classNames from "classnames";
 import { HTMLAttributes } from "react";
 import { checkImage } from "src/utils/checkers";

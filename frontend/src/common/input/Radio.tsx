@@ -12,7 +12,7 @@ const Radio = forwardRef<HTMLInputElement, Props>(
 		return (
 			<label
 				className={classNames(
-					"flex items-center text-2xl font-regular",
+					"flex items-center text-base font-regular cursor-pointer",
 					className
 				)}
 			>
@@ -23,7 +23,7 @@ const Radio = forwardRef<HTMLInputElement, Props>(
 					name={name}
 					value={value}
 					checked={checked}
-					className="mr-3 w-5 h-5 accent-blue-500 focus:ring-blue-500 rounded-full"
+					className="mr-2 w-4 accent-blue-500 focus:ring-blue-500 rounded-full"
 				/>
 				{value}
 			</label>

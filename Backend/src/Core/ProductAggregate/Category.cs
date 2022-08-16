@@ -9,9 +9,9 @@ public class Category : BaseEntity, IAggregateRoot
     // Hierarchy
     public virtual Guid? ParentId { get; private set; }
     public virtual Category? Parent { get; private set; }
-    
-    private readonly List<Category>? _children;
-    public IReadOnlyCollection<Category>? Children => _children?.AsReadOnly();
+
+    private readonly List<Category> _children = new();
+    public IReadOnlyCollection<Category>? Children => _children.Count > 0 ? _children.AsReadOnly() : null;
     
     
     
@@ -50,12 +50,18 @@ public class Category : BaseEntity, IAggregateRoot
     {
         Description = Guard.Against.NullOrEmpty(description, nameof(description));
     }
+    
+    public Category(Guid? parentId, string title,Image image, string description) : this(parentId, title, image)
+    {
+        Description = Guard.Against.NullOrEmpty(description, nameof(description));
+    }
 
 
 
     public Category(Guid? parentId, List<Category> children, string title) : this(parentId, title)
     {
-        _children = Guard.Against.Null(children, nameof(children));
+        Guard.Against.Null(children, nameof(children));
+        AddChild(children);
     }
     
     public Category(Guid? parentId, List<Category> children, string title, Image image) : this(parentId, children, title)
@@ -68,6 +74,27 @@ public class Category : BaseEntity, IAggregateRoot
         Description = Guard.Against.NullOrEmpty(description, nameof(description));
     }
     
+    public Category(Guid? parentId, List<Category> children, string title,Image image, string description) : this(parentId,children, title, image)
+    {
+        Description = Guard.Against.NullOrEmpty(description, nameof(description));
+    }
+    
+    
+    // Getters
+    public List<Category> GetLeafs()
+    {
+        var leafs = new List<Category>();
+        
+        foreach (var child in _children)
+        {
+            leafs.AddRange(child.GetLeafs());
+        }
+        if (leafs.Count == 0)
+        {
+            leafs.Add(this);
+        }
+        return leafs;
+    }
     
     
     // Adding
@@ -78,11 +105,33 @@ public class Category : BaseEntity, IAggregateRoot
         _products.Add(product);
     }   
     
+    public void AddChild(Category child)
+    {
+        Guard.Against.Null(child, nameof(child));
+        child.SetParent(this);
+        _children.Add(child);
+    }
+    
+    public void AddChild(IEnumerable<Category> children)
+    {
+        foreach (var child in children)
+        {
+            AddChild(child);
+        }
+    }
+    
     // Setters
     public void SetImage(Image image)
     {
         Guard.Against.Null(image, nameof(image));
         Image = image;
         ImageId = image.Id;
+    }
+    
+    public void SetParent(Category parent)
+    {
+        Guard.Against.Null(parent, nameof(parent));
+        Parent = parent;
+        ParentId = parent.Id;
     }
 }
