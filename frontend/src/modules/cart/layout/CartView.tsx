@@ -1,11 +1,9 @@
 import Heading from "@/common/typography/Heading";
 import { useCart } from "@/modules/cart/hooks/cart";
 import dynamic from "next/dynamic";
-import CartNav from "../components/CartNav";
 
-const MainLayout = dynamic(() => import("@/common/layout/MainLayout"), {
+const CartNav = dynamic(() => import("@/modules/cart/components/CartNav"), {
 	ssr: false,
-	suspense: true,
 });
 
 const CartCard = dynamic(() => import("@/modules/cart/components/CartCard"), {
@@ -13,14 +11,6 @@ const CartCard = dynamic(() => import("@/modules/cart/components/CartCard"), {
 });
 
 const Error = dynamic(() => import("@/common/components/Error"), {
-	ssr: false,
-});
-
-const TrashIcon = dynamic(() => import("@/common/icons/actions/TrashIcon"), {
-	ssr: false,
-});
-
-const Button = dynamic(() => import("@/common/actions/Button"), {
 	ssr: false,
 });
 

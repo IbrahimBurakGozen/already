@@ -13,7 +13,8 @@ public class Customer : ApplicationUser, IBaseEntity
     public Guid? CartId { get; private set; }
     public Cart? Cart { get; private set; }
 
-
+    public Guid? WishlistId { get; private set; }
+    public Wishlist? Wishlist { get; private set; }
     
     // Constructors
     public Customer(string firstName, string lastName, string email): base(firstName, lastName, email)

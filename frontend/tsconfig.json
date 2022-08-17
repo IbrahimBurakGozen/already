@@ -16,8 +16,10 @@
 		"jsx": "preserve",
 		"incremental": true,
 		"paths": {
-			"@/modules/*": ["src/modules/*"],
+			"@/public/*": ["public/*"],
 			"@/common/*": ["src/common/*"],
+			"@/modules/*": ["src/modules/*"],
+			"@/styles/*": ["src/styles/*"],
 			"@/utils/*": ["src/utils/*"]
 		}
 	},

@@ -1,11 +1,17 @@
-import Arrow from "@/common/icons/actions/Arrow";
-import Heading from "@/common/typography/Heading";
 import { useCategoriesQuery } from "@/modules/categories/hooks/categories.hook";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactElement } from "react";
-
+/**
+ *
+ * Images
+ */
+import landingImage from "@/public/images/home/landing.jpg";
+/**
+ *
+ * Dynamic imports
+ */
 const MainLayout = dynamic(() => import("@/common/layout/MainLayout"), {
 	ssr: false,
 });
@@ -17,6 +23,21 @@ const CategoryGrid = dynamic(
 	}
 );
 
+const CallToAction = dynamic(
+	() => import("@/modules/pages/components/CallToAction"),
+	{
+		ssr: false,
+	}
+);
+
+const Heading = dynamic(() => import("@/common/typography/Heading"), {
+	ssr: false,
+});
+
+const Arrow = dynamic(() => import("@/common/icons/actions/Arrow"), {
+	ssr: false,
+});
+
 export default function HomePage() {
 	const { data, isLoading, error } = useCategoriesQuery(null);
 
@@ -26,7 +47,7 @@ export default function HomePage() {
 				<Image
 					width={100}
 					height={50}
-					src="/images/home/home-landing.jpg"
+					src={landingImage}
 					alt="Home page landing image"
 					layout="fill"
 					objectFit="cover"
@@ -52,13 +73,15 @@ export default function HomePage() {
 					error={error}
 				/>
 			</div>
+
+			<CallToAction px={false} />
 		</>
 	);
 }
 
 HomePage.getLayout = function getLayout(page: ReactElement) {
 	return (
-		<MainLayout py px>
+		<MainLayout pt px>
 			{page}
 		</MainLayout>
 	);

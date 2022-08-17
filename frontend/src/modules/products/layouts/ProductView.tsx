@@ -12,6 +12,7 @@ import { useOptionsHook } from "../hooks/option.hook";
 import Heading from "@/common/typography/Heading";
 import Paragraph from "@/common/typography/Paragraph";
 import { useCart } from "@/modules/cart/hooks/cart";
+import { useWishlist } from "@/modules/cart/hooks/wishlist";
 
 interface Props {
 	product: Product;
@@ -22,7 +23,8 @@ interface Props {
 export default function ProductView({ product, isLoading, error }: Props) {
 	const router = useRouter();
 
-	const { addLine } = useCart();
+	const cart = useCart();
+	const wishlist = useWishlist();
 
 	const [currentVariant, selectedOptions, setSelectedOptions] =
 		useOptionsHook(product);
@@ -39,7 +41,9 @@ export default function ProductView({ product, isLoading, error }: Props) {
 		return <Error title="Product is niet gevonden" />;
 	}
 
-	console.log(product);
+	function handleAddToWishlist() {
+		wishlist.addLine.mutateAsync({ id: product.variants[currentVariant].id });
+	}
 
 	return (
 		<section className="flex flex-col gap-16">
@@ -70,7 +74,10 @@ export default function ProductView({ product, isLoading, error }: Props) {
 				/>
 
 				<div className="flex flex-row justify-end gap-10">
-					<WishlistButton callback={() => {}} className="w-7 cursor-pointer" />
+					<WishlistButton
+						callback={handleAddToWishlist}
+						className="w-7 cursor-pointer"
+					/>
 					<CloseIcon
 						onClick={() => router.back()}
 						className="w-6 cursor-pointer"
@@ -127,7 +134,7 @@ export default function ProductView({ product, isLoading, error }: Props) {
 				<ProductViewNav
 					product={product}
 					currentVariant={currentVariant}
-					addToCart={addLine.mutate}
+					addToCart={cart.addLine.mutate}
 				/>
 			</div>
 		</section>

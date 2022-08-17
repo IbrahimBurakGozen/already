@@ -57,6 +57,7 @@ export default function CartCard({
 						{...checkImage(item.image)}
 						width={100}
 						height={100}
+						objectFit="cover"
 						className="rounded-xl"
 					/>
 

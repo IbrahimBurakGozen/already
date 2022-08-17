@@ -6,14 +6,14 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = forwardRef<HTMLInputElement, Props>(
-	({ className = "", error, ...props }, ref) => {
+	({ className, error, ...props }, ref) => {
 		return (
 			<input
 				{...props}
 				ref={ref}
 				className={classNames(
-					"rounded-full bg-light-400 px-8 py-2 text-sm focus:outline-blue-500",
-					error && "border-red-700 border-2 focus:outline-red-700",
+					"rounded-xl bg-light-500 px-5 py-3 text-sm focus:outline-blue-500",
+					error && "border-red-500 border-2 focus:outline-red-500",
 					className
 				)}
 			/>

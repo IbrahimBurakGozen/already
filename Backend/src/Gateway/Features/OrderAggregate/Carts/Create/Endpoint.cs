@@ -4,7 +4,7 @@ using Gateway.Features.OrderAggregate.Dto;
 using Shared.Interfaces;
 namespace Gateway.Features.OrderAggregate.Carts.Create
 {
-    public class Endpoint : Endpoint<Request, Response>
+    public class Endpoint : Endpoint<EmptyRequest, Response>
     {
         private readonly IRepository<Cart> _repository;
   
@@ -19,10 +19,8 @@ namespace Gateway.Features.OrderAggregate.Carts.Create
             AllowAnonymous();
         }
 
-        public override async Task HandleAsync(Request req, CancellationToken ct)
+        public override async Task HandleAsync(EmptyRequest emptyRequest, CancellationToken ct)
         {
-            // Console.WriteLine($"Creating cart {req.Buyer.Id} {req.CartLines.ToList().Count}");
-            
             try
             {
                 var createdCart =  new Cart();
@@ -36,7 +34,6 @@ namespace Gateway.Features.OrderAggregate.Carts.Create
                 await SendErrorsAsync(cancellation: ct);
                 Console.WriteLine(e);
                 throw;
-                
             }
         }
     }

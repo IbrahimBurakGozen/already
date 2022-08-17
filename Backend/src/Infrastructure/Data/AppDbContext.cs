@@ -2,7 +2,6 @@ using Ardalis.EFCore.Extensions;
 using Core.IdentityAggregate;
 using Core.OrderAggregate;
 using Core.ProductAggregate;
-using Infrastructure.Data.Seed.ProductAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +29,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     // OrderAggregate
     public DbSet<Cart> Carts => Set<Cart>();
     public DbSet<CartLine> CartLines => Set<CartLine>();
+    
+    public DbSet<Wishlist> Wishlists => Set<Wishlist>();
+    public DbSet<WishlistLine> WishlistLines => Set<WishlistLine>();
+
     
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();

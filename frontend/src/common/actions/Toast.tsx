@@ -1,13 +1,23 @@
 import classNames from "classnames";
 import { AnimatePresence, HTMLMotionProps } from "framer-motion";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+
+export type ToastState = "idle" | "success" | "error";
 
 interface Props extends HTMLMotionProps<"span"> {
-	state: "success" | "error";
+	state: ToastState;
+	setState: (state: ToastState) => void;
 	children: any;
 }
 
-export default function Toast({ children, state, className, ...props }: Props) {
+export default function Toast({
+	children,
+	state,
+	setState,
+	className,
+	...props
+}: Props) {
 	const variants = {
 		initial: {
 			opacity: 0,
@@ -29,14 +39,26 @@ export default function Toast({ children, state, className, ...props }: Props) {
 		},
 	};
 
+	useEffect(() => {
+		if (state !== "idle") {
+			setTimeout(() => {
+				setState("idle");
+			}, 2000);
+		}
+	}, [state]);
+
+	if (state === "idle") {
+		return <></>;
+	}
+
 	return (
 		<AnimatePresence exitBeforeEnter>
 			<motion.span
 				{...props}
 				className={classNames(
-					"p-8 text-white text-2xl font-semibold text-center rounded-xl",
+					"p-6 text-white text-lg font-semibold text-center rounded-xl",
 					state === "success" && "bg-blue-500",
-					state === "error" && "bg-red-700",
+					state === "error" && "bg-red-500",
 					className
 				)}
 				variants={variants}

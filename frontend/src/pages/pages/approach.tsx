@@ -1,7 +1,17 @@
-import Text from "@/common/typography/Text";
 import dynamic from "next/dynamic";
 import { ReactElement } from "react";
-
+/**
+ *
+ * Images
+ */
+import step1Image from "@/public/images/approach/step-1.jpg";
+import step2Image from "@/public/images/approach/step-2.jpg";
+import step3Image from "@/public/images/approach/step-3.jpg";
+import CallToAction from "@/modules/pages/components/CallToAction";
+/**
+ *
+ * Dynamic imports
+ */
 const MainLayout = dynamic(() => import("@/common/layout/MainLayout"), {
 	ssr: false,
 });
@@ -11,6 +21,10 @@ const Banner = dynamic(() => import("@/modules/pages/components/Banner"), {
 });
 
 const Heading = dynamic(() => import("@/common/typography/Heading"), {
+	ssr: false,
+});
+
+const Text = dynamic(() => import("@/common/typography/Text"), {
 	ssr: false,
 });
 
@@ -37,7 +51,7 @@ export default function ApproachPage() {
 				title="1. Bestellen"
 				subtitle="Kies je producten uit verschillende winkels tegelijk."
 				image={{
-					src: "/images/approach/step-1.jpg",
+					src: step1Image as unknown as string,
 					alt: "Stap 1 afbeelding",
 				}}
 				position="right"
@@ -47,7 +61,7 @@ export default function ApproachPage() {
 				title="2. Relaxen"
 				subtitle="Gelukkig moet je niet lang wachten, want vandaag besteld morgen in huis!"
 				image={{
-					src: "/images/approach/step-2.jpg",
+					src: step2Image as unknown as string,
 					alt: "Stap 2 afbeelding",
 				}}
 			/>
@@ -56,11 +70,13 @@ export default function ApproachPage() {
 				title="3. Genieten"
 				subtitle="Nu  volop genieten! "
 				image={{
-					src: "/images/approach/step-3.jpg",
+					src: step3Image as unknown as string,
 					alt: "Stap 3 afbeelding",
 				}}
 				position="right"
 			/>
+
+			<CallToAction />
 		</>
 	);
 }

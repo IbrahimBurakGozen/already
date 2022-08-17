@@ -20,7 +20,7 @@ services:
       context: ./Backend
       dockerfile: Dockerfile.dev
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT:
       CONNECTION_STRINGS: host=db;port=5432;database=${POSTGRES_DB};username=${POSTGRES_USER};password=${POSTGRES_PASSWORD};
     ports:
       - "8080:8080"
@@ -40,7 +40,9 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       API_PATH: http://backend:8080
-      NODE_ENV: development
+      NODE_ENV:
+      SENDGRID_API_KEY:
+      ADMIN_EMAIL:
     ports:
       - "80:3000"
     restart: always

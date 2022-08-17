@@ -33,7 +33,7 @@ export default function NewsletterForm({ className, ...props }: Props) {
 				<Input
 					type="email"
 					placeholder="Schrijf hier je email..."
-					className="rounded-r-none"
+					className="rounded-l-full rounded-r-none"
 					{...register("email", {
 						required: true,
 					})}
@@ -43,7 +43,7 @@ export default function NewsletterForm({ className, ...props }: Props) {
 					shape="square"
 					size="medium"
 					variant="filled"
-					className="rounded-r-full rounded-l-none flex flex-col justify-center items-center"
+					className="bg-blue-600 rounded-r-full rounded-l-none flex flex-col justify-center items-center"
 				>
 					<PlaneIcon
 						animate={

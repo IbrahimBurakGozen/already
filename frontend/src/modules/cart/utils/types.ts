@@ -24,3 +24,25 @@ export interface CartLine {
 
 	image: Image;
 }
+
+export interface Wishlist {
+	id: string;
+	buyerIdentity: {
+		countryCode: string;
+		email: string;
+		phone: string;
+	};
+	lines: WishlistLine[];
+}
+
+export interface WishlistLine {
+	id: string;
+	variantId: string;
+	productId: string;
+
+	title: string;
+	description: string;
+	price: number;
+
+	image: Image;
+}

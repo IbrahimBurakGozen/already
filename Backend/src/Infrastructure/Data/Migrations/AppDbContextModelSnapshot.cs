@@ -405,6 +405,56 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("Core.OrderAggregate.Wishlist", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
+
+                    b.ToTable("Wishlists");
+                });
+
+            modelBuilder.Entity("Core.OrderAggregate.WishlistLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ProductVariantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("WishlistId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductVariantId");
+
+                    b.HasIndex("WishlistId");
+
+                    b.ToTable("WishlistLines");
+                });
+
             modelBuilder.Entity("Core.ProductAggregate.Brand", b =>
                 {
                     b.Property<Guid>("Id")
@@ -704,6 +754,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<Guid?>("CartId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("WishlistId")
+                        .HasColumnType("uuid");
+
                     b.HasDiscriminator().HasValue("Customer");
                 });
 
@@ -861,6 +914,35 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("ProductVariant");
                 });
 
+            modelBuilder.Entity("Core.OrderAggregate.Wishlist", b =>
+                {
+                    b.HasOne("Core.OrderAggregate.Customer", "Customer")
+                        .WithOne("Wishlist")
+                        .HasForeignKey("Core.OrderAggregate.Wishlist", "CustomerId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Core.OrderAggregate.WishlistLine", b =>
+                {
+                    b.HasOne("Core.ProductAggregate.ProductVariant", "ProductVariant")
+                        .WithMany()
+                        .HasForeignKey("ProductVariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.OrderAggregate.Wishlist", "Wishlist")
+                        .WithMany("WishlistLines")
+                        .HasForeignKey("WishlistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductVariant");
+
+                    b.Navigation("Wishlist");
+                });
+
             modelBuilder.Entity("Core.ProductAggregate.Category", b =>
                 {
                     b.HasOne("Core.ProductAggregate.Image", "Image")
@@ -971,6 +1053,11 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("OrderItems");
                 });
 
+            modelBuilder.Entity("Core.OrderAggregate.Wishlist", b =>
+                {
+                    b.Navigation("WishlistLines");
+                });
+
             modelBuilder.Entity("Core.ProductAggregate.Brand", b =>
                 {
                     b.Navigation("Products");
@@ -1007,6 +1094,8 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Cart");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("Wishlist");
                 });
 #pragma warning restore 612, 618
         }

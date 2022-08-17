@@ -1,15 +1,11 @@
 import Link from "next/link";
 import Logo from "@/common/icons/brand/Logo";
-import SearchIcon from "@/common/icons/navigation/SearchIcon";
-import CartIcon from "@/common/icons/navigation/CartIcon";
-import WishlistIcon from "@/common/icons/navigation/WishlistIcon";
-import AccountIcon from "@/common/icons/navigation/AccountIcon";
 import MenuIcon from "@/common/icons/navigation/MenuIcon";
 import { useRouter } from "next/router";
 import MobileMenu from "./Mobile/MobileMenu";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
-import { bottomRoutes, mainRoutes } from "@/common/config/paths";
+import { bottomRoutes, iconRoutes, mainRoutes } from "@/common/config/paths";
 import Submark from "@/common/icons/brand/Submark";
 
 export default function Navigation() {
@@ -66,34 +62,11 @@ export default function Navigation() {
 					Icon links
 				*/}
 				<div className="flex flex-row gap-10">
-					{[
-						{
-							icon: (
-								<SearchIcon className="cursor-pointer fill-blue-500 hover:fill-blue-600 w-6 lg:w-7" />
-							),
-							path: "/search",
-						},
-						{
-							icon: (
-								<WishlistIcon className="cursor-pointer fill-blue-500 hover:fill-blue-600 w-6 lg:w-7" />
-							),
-							path: "/cart/wishlist",
-						},
-						{
-							icon: (
-								<CartIcon className="cursor-pointer fill-blue-500 hover:fill-blue-600 w-6 lg:w-7" />
-							),
-							path: "/cart",
-						},
-						{
-							icon: (
-								<AccountIcon className="cursor-pointer fill-blue-500 hover:fill-blue-600 w-6 lg:w-7" />
-							),
-							path: "/account",
-						},
-					].map(({ icon, path }, index) => (
-						<Link href={path} key={index}>
-							{icon}
+					{iconRoutes.map((element, index) => (
+						<Link href={element.path} key={index}>
+							{
+								<element.icon className="cursor-pointer fill-blue-500 hover:fill-blue-600 w-6 lg:w-7" />
+							}
 						</Link>
 					))}
 				</div>
