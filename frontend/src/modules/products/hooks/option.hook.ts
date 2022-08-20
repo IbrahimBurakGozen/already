@@ -31,7 +31,7 @@ export function useOptionsHook(product: Product): [
 			setSelectedOptions(initialOption);
 			setInitial(true);
 		}
-	}, [product]);
+	}, [product, initial]);
 
 	/**
 	 *

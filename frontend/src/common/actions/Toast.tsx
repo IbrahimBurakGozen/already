@@ -45,7 +45,7 @@ export default function Toast({
 				setState("idle");
 			}, 2000);
 		}
-	}, [state]);
+	}, [state, setState]);
 
 	if (state === "idle") {
 		return <></>;
