@@ -1,6 +1,7 @@
 using Ardalis.EFCore.Extensions;
 using Core.IdentityAggregate;
 using Core.OrderAggregate;
+using Core.ProcessAggregate;
 using Core.ProductAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -53,6 +54,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<Category> Categories => Set<Category>();
     
     
+    // ProcessAggregate
+    public DbSet<Process> Processes => Set<Process>();
+    
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -90,10 +95,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
         modelBuilder.Entity<ApplicationRole>().ToTable("Roles");
         modelBuilder.Entity<ApplicationRoleClaim>().ToTable("RoleClaims");
         
-        
-        // Seeding
-        // modelBuilder.Entity<Brand>().HasData(BrandSeedData.Data);
-
         
         modelBuilder.ApplyAllConfigurationsFromCurrentAssembly();
     }

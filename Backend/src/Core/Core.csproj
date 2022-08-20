@@ -19,8 +19,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ProductAggregate\Events" />
-      <Folder Include="ProductAggregate\Handlers" />
+      <Compile Remove="ProductAggregate\Events\**" />
+      <Compile Remove="ProductAggregate\Handlers\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="ProductAggregate\Events\**" />
+      <EmbeddedResource Remove="ProductAggregate\Handlers\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="ProductAggregate\Events\**" />
+      <None Remove="ProductAggregate\Handlers\**" />
     </ItemGroup>
 
 </Project>

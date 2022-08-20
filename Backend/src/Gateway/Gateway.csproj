@@ -33,7 +33,6 @@
     <ItemGroup>
       <Folder Include="Features\OrderAggregate\Carts\RemoveLineItem" />
       <Folder Include="Features\OrderAggregate\Carts\UpdateLineItem" />
-      <Folder Include="Features\OrderAggregate\Orders" />
       <Folder Include="Features\ProductAggregate\Categories" />
       <Folder Include="Features\ProductAggregate\Products" />
     </ItemGroup>

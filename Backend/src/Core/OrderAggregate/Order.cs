@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Ardalis.GuardClauses;
+using Core.OrderAggregate.Events;
 using Core.OrderAggregate.OrderStates;
 using Shared;
 using Shared.Interfaces;
@@ -10,6 +11,9 @@ public class Order : BaseEntity, IAggregateRoot
     // Relations
     public Guid? CustomerId { get; private set; }
     public Customer? Customer { get; private set; }
+    
+    public Guid? CartId { get; private set; }
+    public Cart? Cart { get; private set; }
     
     private List<OrderItem> _orderItems = new();
     public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
@@ -47,7 +51,26 @@ public class Order : BaseEntity, IAggregateRoot
     public Order(List<OrderItem> orderItems) :this()
     {
         AddOrderItem(orderItems);
+        Events.Add(new OrderPlacedEvent(this));
     }
+    
+    public Order(Cart cart) :this()
+    {
+        _orderItems = cart.CartLines.Select(x => new OrderItem(x.Quantity, x.ProductVariant)).ToList();
+        SetCart(cart);
+        Events.Add(new OrderPlacedEvent(this));
+    }
+    
+    public Order(List<OrderItem> orderItems, Customer customer) :this(orderItems)
+    {
+        SetCustomer(customer);
+    }
+    
+    public Order( Cart cart, Customer customer) :this(cart)
+    {
+        SetCustomer(customer);
+    }
+
 
     
     // State Methods
@@ -86,5 +109,12 @@ public class Order : BaseEntity, IAggregateRoot
         Guard.Against.Null(customer);
         Customer = customer;
         CustomerId = customer.Id;
+    }
+    
+    public void SetCart(Cart cart)
+    {
+        Guard.Against.Null(cart);
+        Cart = cart;
+        CartId = cart.Id;
     }
 }

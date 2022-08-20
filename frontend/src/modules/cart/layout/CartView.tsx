@@ -123,7 +123,7 @@ export default function CartView() {
 				</div>
 			</div>
 
-			<CartNav totalPrice={data.totalPrice} />
+			<CartNav cart={data} />
 		</div>
 	);
 }

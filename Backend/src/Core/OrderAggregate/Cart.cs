@@ -11,8 +11,11 @@ public class Cart : BaseEntity, IAggregateRoot
     
     private readonly List<CartLine> _cartLines = new();
     public IReadOnlyCollection<CartLine> CartLines => _cartLines.AsReadOnly();
-
     
+    // Properties
+    public Boolean OrderPlaced { get; private set; }
+
+
     // Constructors
     public Cart(){}
     
@@ -93,5 +96,10 @@ public class Cart : BaseEntity, IAggregateRoot
         Guard.Against.Null(customer);
         Customer = customer;
         CustomerId = customer.Id;
+    }
+    
+    public void SetOrderPlaced(Boolean orderPlaced)
+    {
+        OrderPlaced = orderPlaced;
     }
 }

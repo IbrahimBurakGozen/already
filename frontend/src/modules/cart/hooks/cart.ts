@@ -1,4 +1,4 @@
-import { getCartId, setCartId } from "@/utils/cookies/cart";
+import { deleteCartId, getCartId, setCartId } from "@/utils/cookies/cart";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Cart, CartLine } from "../utils/types";
@@ -23,9 +23,13 @@ export function useCart() {
 			setCartId(data.id);
 		}
 
-		const { data } = await axios.get("/api/cart");
-
-		return data as Cart;
+		try {
+			const { data } = await axios.get("/api/cart");
+			return data as Cart;
+		} catch (e: any) {
+			deleteCartId();
+			queryClient.invalidateQueries(["cart"]);
+		}
 	});
 	/**
 	 *
