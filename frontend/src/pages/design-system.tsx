@@ -4,10 +4,13 @@ import Button, {
 	buttonVariant,
 } from "@/common/actions/Button";
 import HyperLink from "@/common/components/HyperLink";
-import MainLayout from "@/common/layout/MainLayout";
 import Heading from "@/common/typography/Heading";
+import dynamic from "next/dynamic";
 import { ReactElement } from "react";
 
+const MainLayout = dynamic(() => import("@/common/layout/MainLayout"), {
+	ssr: false,
+});
 export default function DesignSystemPage() {
 	return (
 		<>

@@ -1,6 +1,9 @@
-import MainLayout from "@/common/layout/MainLayout";
 import dynamic from "next/dynamic";
 import { ReactElement } from "react";
+
+const MainLayout = dynamic(() => import("@/common/layout/MainLayout"), {
+	ssr: false,
+});
 
 const CartView = dynamic(() => import("@/modules/cart/layout/CartView"), {
 	ssr: false,
